@@ -63,8 +63,8 @@ static void MX_TIM2_Init(void);
 
 /* USER CODE BEGIN 0 */
 typedef volatile uint32_t TimerRegister;
-typedef struct GenerralTimerRegs GenerralTimerRegs;
-struct GenerralTimerRegs{
+typedef struct GeneralTimerRegs GeneralTimerRegs;
+struct GeneralTimerRegs{
 	TimerRegister cr1;		// control register 1
 	TimerRegister cr2;		// control register 2
 	TimerRegister smcr;		// slave mode control register
@@ -97,10 +97,10 @@ typedef enum
 
 typedef enum
 {
-  OK       = 0x00U,
-  ERROR    = 0x01U,
-  BUSY     = 0x02U,
-  TIMEOUT  = 0x03U
+  Ok       = 0x00U,
+  Error    = 0x01U,
+  Busy     = 0x02U,
+  Timeout  = 0x03U
 } Status_TypeDef;
 
 
@@ -109,26 +109,60 @@ struct TIM_Handle_Type{
 	GenerralTimerRegs *Instance;
 	volatile TIM_State_TypeDef State;
 };
+#define TIMER_CHANNEL_1                      0x00000000U
+#define TIMER_CHANNEL_2                      0x00000004U
+#define TIMER_CHANNEL_3                      0x00000008U
+#define TIMER_CHANNEL_4                      0x0000000CU
+#define TIMER_CHANNEL_ALL                    0x00000018U
+
+#define TIMER_CCx_ENABLE                   0x00000001U
+#define TIMER_CCx_DISABLE                  0x00000000U
+#define TIMER_CCxN_ENABLE                  0x00000004U
+#define TIMER_CCxN_DISABLE                 0x00000000U
+
+#define timer1   ((TimerRegister*)0x40010000);
+#define timer2   ((TimerRegister*)0x40000000);
+#define timer3   ((TimerRegister*)0x40000400);
+#define timer4   ((TimerRegister*)0x40000800);
+#define timer5   ((TimerRegister*)0x40000c00);
+#define timer6   ((TimerRegister*)0x40001000);
+#define timer7   ((TimerRegister*)0x40001400);
+#define timer8   ((TimerRegister*)0x40010400);
+#define timer9   ((TimerRegister*)0x40014000);
+#define timer10  ((TimerRegister*)0x40014400);
+#define timer11  ((TimerRegister*)0x40014800);
+#define timer12  ((TimerRegister*)0x40001800);
+#define timer13  ((TimerRegister*)0x40001c00);
+#define timer14  ((TimerRegister*)0x40002000);
+
+
+Status_TypeDef TIM_BASE_START(TIM_Handle_Type *tim){
+	tim->State = TIM_STATE_BUSY;
+    tim->Instance->cr1 |= 1;
+	tim->State = TIM_STATE_READY;
+
+	return Ok;
+}
 
 TIM_Handle_Type tim2;
 
+void Timer2init(TIM_Handle_Type *timer){
+	timer->Instance = timer2;
+}
 
-#define timer1  timer ((TimerRegister*))0x4001 0000;
-#define timer2  timer ((TimerRegister*))0x4000 0000;
-#define timer3  timer ((TimerRegister*))0x4000 0400;
-#define timer4  timer ((TimerRegister*))0x4000 0800;
-#define timer5  timer ((TimerRegister*))0x4000 0c00;
-#define timer6  timer ((TimerRegister*))0x4000 1000;
-#define timer7  timer ((TimerRegister*))0x4000 1400;
-#define timer8  timer ((TimerRegister*))0x4001 0400;
-#define timer9  timer ((TimerRegister*))0x4001 4000;
-#define timer10 timer ((TimerRegister*))0x4001 4400;
-#define timer11 timer ((TimerRegister*))0x4001 4800;
-#define timer12 timer ((TimerRegister*))0x4000 1800;
-#define timer13 timer ((TimerRegister*))0x4000 1c00;
-#define timer14 timer ((TimerRegister*))0x4000 2000;
+void TIMER_CCxChannelCmd(GeneralTimerRegs* TIMx, uint32_t Channel, uint32_t ChannelState)
+{
+	 uint32_t tmp = 0U;
 
 
+	 tmp = TIM_CCER_CC1E << Channel;
+
+	 /* Reset the CCxE Bit */
+	 TIMx->ccer &= ~tmp;
+
+	 /* Set or reset the CCxE Bit */
+	 TIMx->ccer |= (uint32_t)(ChannelState << Channel);
+}
 /* USER CODE END 0 */
 
 /**
@@ -159,18 +193,25 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
+
   MX_GPIO_Init();
   MX_TIM2_Init();
+
+  Timer2init(&tim2);
+  TIM_BASE_START(&tim2);
+
   /* USER CODE BEGIN 2 */
-  HAL_TIM_Base_Start(&htim2);
-  HAL_TIM_OC_Start(&htim2, TIM_CHANNEL_3);
 
-  HAL_GPIO_WritePin(LED3_GPIO_Port, LED3_Pin, 0);
-  HAL_GPIO_WritePin(LED4_GPIO_Port, LED4_Pin, 0);
+  //HAL_TIM_Base_Start(&htim2);
+  //HAL_TIM_OC_Start(&htim2, TIM_CHANNEL_3);
 
-  __HAL_TIM_SET_COUNTER(&htim2, 0);
-  __HAL_TIM_CLEAR_FLAG(&htim2, TIM_IT_UPDATE);
-  __HAL_TIM_CLEAR_FLAG(&htim2, TIM_IT_CC3);
+  //HAL_GPIO_WritePin(LED3_GPIO_Port, LED3_Pin, 0);
+  //HAL_GPIO_WritePin(LED4_GPIO_Port, LED4_Pin, 0);
+
+  //__HAL_TIM_SET_COUNTER(&htim2, 0);
+  //__HAL_TIM_CLEAR_FLAG(&htim2, TIM_IT_UPDATE);
+  //__HAL_TIM_CLEAR_FLAG(&htim2, TIM_IT_CC3);
+
 
   /* USER CODE END 2 */
 
@@ -179,16 +220,15 @@ int main(void)
   while (1)
   {
 
-	  if(__HAL_TIM_GET_FLAG(&htim2,TIM_FLAG_UPDATE)){
-		  __HAL_TIM_CLEAR_FLAG(&htim2,TIM_IT_UPDATE);
-		  HAL_GPIO_TogglePin(LED4_GPIO_Port, LED4_Pin);
-	  }
+	 // if(__HAL_TIM_GET_FLAG(&htim2,TIM_FLAG_UPDATE)){
+		//  __HAL_TIM_CLEAR_FLAG(&htim2,TIM_IT_UPDATE);
+	//	  HAL_GPIO_TogglePin(LED4_GPIO_Port, LED4_Pin);
+	 // }
 
-
-	  if(__HAL_TIM_GET_FLAG(&htim2,TIM_FLAG_CC3)){
-		  __HAL_TIM_CLEAR_FLAG(&htim2,TIM_FLAG_CC3);
-		  HAL_GPIO_TogglePin(LED3_GPIO_Port, LED3_Pin);
-	  }
+//  if(__HAL_TIM_GET_FLAG(&htim2,TIM_FLAG_CC3)){
+	//	  __HAL_TIM_CLEAR_FLAG(&htim2,TIM_FLAG_CC3);
+	//	  HAL_GPIO_TogglePin(LED3_GPIO_Port, LED3_Pin);
+	//  }
 
   /* USER CODE END WHILE */
 
@@ -342,17 +382,8 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
-Status_TypeDef TIM_BASE_START(TIM_Handle_Type *tim){
-	tim->State = TIM_STATE_BUSY;
-    tim->Instance->cr1|= 1;
-	tim->State = TIM_STATE_READY;
 
-	return OK;
-}
 
-void Timer2init(TIM_Handle_Type *tim){
-	tim->Instance = timer2;
-}
 /* USER CODE END 4 */
 
 /**
