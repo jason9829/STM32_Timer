@@ -46,7 +46,6 @@
 
 /* Private variables ---------------------------------------------------------*/
 TIM_HandleTypeDef htim2;
-
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 
@@ -63,6 +62,72 @@ static void MX_TIM2_Init(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
+typedef volatile uint32_t TimerRegister;
+typedef struct GenerralTimerRegs GenerralTimerRegs;
+struct GenerralTimerRegs{
+	TimerRegister cr1;		// control register 1
+	TimerRegister cr2;		// control register 2
+	TimerRegister smcr;		// slave mode control register
+	TimerRegister dier;		// DMA/ Interrupt enable register
+	TimerRegister sr;		// status register
+	TimerRegister egr;		// event generation register
+	TimerRegister ccmr1;	// capture/ compare mode register 1
+	TimerRegister ccmr2;	// capture/ compare mode register 2
+	TimerRegister ccer;		// capture/compare enable register
+	TimerRegister cnt;		// counter
+	TimerRegister psc;		// prescaler
+	TimerRegister arr;		// auto-reload register
+	TimerRegister ccr1;		// capture/compare register 1
+	TimerRegister ccr2;		// capture/compare register 2
+	TimerRegister ccr3;		// capture/compare register 3
+	TimerRegister ccr4;		// capture/compare register 4
+	TimerRegister dcr;		// DMA control register
+	TimerRegister dmar;		// DMA address for full transfer
+	TimerRegister or;		// option register
+};
+
+typedef enum
+{
+  TIM_STATE_RESET             = 0x00U,    /*!< Peripheral not yet initialized or disabled  */
+  TIM_STATE_READY             = 0x01U,    /*!< Peripheral Initialized and ready for use    */
+  TIM_STATE_BUSY              = 0x02U,    /*!< An internal process is ongoing              */
+  TIM_STATE_TIMEOUT           = 0x03U,    /*!< Timeout state                               */
+  TIM_STATE_ERROR             = 0x04U     /*!< Reception process is ongoing                */
+}TIM_State_TypeDef;
+
+typedef enum
+{
+  OK       = 0x00U,
+  ERROR    = 0x01U,
+  BUSY     = 0x02U,
+  TIMEOUT  = 0x03U
+} Status_TypeDef;
+
+
+typedef struct TIM_Handle_Type TIM_Handle_Type;
+struct TIM_Handle_Type{
+	GenerralTimerRegs *Instance;
+	volatile TIM_State_TypeDef State;
+};
+
+TIM_Handle_Type tim2;
+
+
+#define timer1  timer ((TimerRegister*))0x4001 0000;
+#define timer2  timer ((TimerRegister*))0x4000 0000;
+#define timer3  timer ((TimerRegister*))0x4000 0400;
+#define timer4  timer ((TimerRegister*))0x4000 0800;
+#define timer5  timer ((TimerRegister*))0x4000 0c00;
+#define timer6  timer ((TimerRegister*))0x4000 1000;
+#define timer7  timer ((TimerRegister*))0x4000 1400;
+#define timer8  timer ((TimerRegister*))0x4001 0400;
+#define timer9  timer ((TimerRegister*))0x4001 4000;
+#define timer10 timer ((TimerRegister*))0x4001 4400;
+#define timer11 timer ((TimerRegister*))0x4001 4800;
+#define timer12 timer ((TimerRegister*))0x4000 1800;
+#define timer13 timer ((TimerRegister*))0x4000 1c00;
+#define timer14 timer ((TimerRegister*))0x4000 2000;
+
 
 /* USER CODE END 0 */
 
@@ -277,6 +342,17 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
+Status_TypeDef TIM_BASE_START(TIM_Handle_Type *tim){
+	tim->State = TIM_STATE_BUSY;
+    tim->Instance->cr1|= 1;
+	tim->State = TIM_STATE_READY;
+
+	return OK;
+}
+
+void Timer2init(TIM_Handle_Type *tim){
+	tim->Instance = timer2;
+}
 /* USER CODE END 4 */
 
 /**
