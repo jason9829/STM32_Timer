@@ -25,7 +25,9 @@ Src/main.o: ../Src/main.c C:/student/JLXW/STM32_Timer/Inc/main.h \
  C:/student/JLXW/STM32_Timer/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h \
  C:/student/JLXW/STM32_Timer/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
  C:/student/JLXW/STM32_Timer/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
- C:/student/JLXW/STM32_Timer/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
+ C:/student/JLXW/STM32_Timer/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
+ C:/student/JLXW/STM32_Timer/Inc/Timer.h \
+ C:/student/JLXW/STM32_Timer/Inc/RCC.h
 
 C:/student/JLXW/STM32_Timer/Inc/main.h:
 
@@ -82,3 +84,7 @@ C:/student/JLXW/STM32_Timer/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_e
 C:/student/JLXW/STM32_Timer/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 
 C:/student/JLXW/STM32_Timer/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
+
+C:/student/JLXW/STM32_Timer/Inc/Timer.h:
+
+C:/student/JLXW/STM32_Timer/Inc/RCC.h:
