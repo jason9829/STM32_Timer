@@ -4,6 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../Src/NVIC.c \
 ../Src/RCC.c \
 ../Src/Timer.c \
 ../Src/main.c \
@@ -12,6 +13,7 @@ C_SRCS += \
 ../Src/system_stm32f4xx.c 
 
 OBJS += \
+./Src/NVIC.o \
 ./Src/RCC.o \
 ./Src/Timer.o \
 ./Src/main.o \
@@ -20,6 +22,7 @@ OBJS += \
 ./Src/system_stm32f4xx.o 
 
 C_DEPS += \
+./Src/NVIC.d \
 ./Src/RCC.d \
 ./Src/Timer.d \
 ./Src/main.d \

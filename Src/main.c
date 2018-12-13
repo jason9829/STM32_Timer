@@ -43,7 +43,7 @@
 /* USER CODE BEGIN Includes */
 #include "Timer.h"
 #include "RCC.h"
-
+#include "NVIC.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -123,6 +123,19 @@ int main(void)
   TIM_COUNTER_ENABLE(timer2);
   TIM_CAPTURE_COMPARE_ENABLE(timer2, 3);
 
+  nvicEnableInterrupt(28);
+  TIM_INTERRUPT_ENABLE(timer2, TIM_UIE);
+
+  /*
+  nvicDisableInterrupt(45);
+
+
+  nvicEnableInterrupt(12);
+  nvicDisableInterrupt(12);
+
+
+  int n = nvicIsInterruptActive(45);
+*/
   //***********HAL functions*************************
   //HAL_TIM_Base_Start(&htim2);
   //HAL_TIM_OC_Start(&htim2, TIM_CHANNEL_3);
@@ -152,7 +165,7 @@ int main(void)
 	//	  HAL_GPIO_TogglePin(LED3_GPIO_Port, LED3_Pin);
 	//  }
 
-	  if(TIM_GET_FLAG(timer2,TIM_FLAG_UPDATE)){
+	/*  if(TIM_GET_FLAG(timer2,TIM_FLAG_UPDATE)){
 		  TIM_CLEAR_FLAG(timer2,TIM_IT_UPDATE);
 		HAL_GPIO_TogglePin(LED4_GPIO_Port, LED4_Pin);
 		  }
@@ -160,7 +173,7 @@ int main(void)
 	  if(TIM_GET_FLAG(timer2,TIM_FLAG_CC3)){
 		  TIM_CLEAR_FLAG(timer2,TIM_FLAG_CC3);
 		  HAL_GPIO_TogglePin(LED3_GPIO_Port, LED3_Pin);
-		  }
+		  }*/
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */

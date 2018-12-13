@@ -50,6 +50,12 @@ struct RCCRegs{				//  Offset	// Description
 #define ENABLE_TIMER_13_CLK_GATING()		rcc->apb1enr |= (1 << 7)
 #define ENABLE_TIMER_14_CLK_GATING()		rcc->apb1enr |= (1 << 8)
 
+
+// For DMA
+#define ENABLE_DMA1_CLK_GATING()			rcc->ahb1enr |= (1 << 21)
+#define ENABLE_DMA2_CLK_GATING()			rcc->ahb1enr |= (1 << 22)
+
+
 #define DISABLE_TIMER_2_CLK_GATING()		rcc->apb1enr &= ~(1 << 0)
 #define DISABLE_TIMER_3_CLK_GATING()		rcc->apb1enr &= ~(1 << 1)
 #define DISABLE_TIMER_4_CLK_GATING()		rcc->apb1enr &= ~(1 << 2)
@@ -60,6 +66,10 @@ struct RCCRegs{				//  Offset	// Description
 #define DISABLE_TIMER_13_CLK_GATING()		rcc->apb1enr &= ~(1 << 7)
 #define DISABLE_TIMER_14_CLK_GATING()		rcc->apb1enr &= ~(1 << 8)
 
+
+// For DMA
+#define DISABLE_DMA1_CLK_GATING()		rcc->ahb1enr &= ~(1 << 21)
+#define DISABLE_DMA2_CLK_GATING()		rcc->ahb1enr &= ~(1 << 22)
 
 /********************* apb1rstr(peripheral reset register) ************************/
 #define UNRESET_TIMER_2_CLK_GATING()		rcc->apb1rstr &= ~(1 << 0)
@@ -72,6 +82,12 @@ struct RCCRegs{				//  Offset	// Description
 #define UNRESET_TIMER_13_CLK_GATING()		rcc->apb1rstr &= ~(1 << 7)
 #define UNRESET_TIMER_14_CLK_GATING()		rcc->apb1rstr &= ~(1 << 8)
 
+// For DMA
+#define UNRESET_DMA1_CLK_GATING()			rcc->ahb1rstr &= ~(1 << 21)
+#define UNRESET_DMA2_CLK_GATING()			rcc->ahb1rstr &= ~(1 << 22)
+
+
+
 #define RESET_TIMER_2_CLK_GATING()			rcc->apb1rstr |= (1 << 0)
 #define RESET_TIMER_3_CLK_GATING()			rcc->apb1rstr |= (1 << 1)
 #define RESET_TIMER_4_CLK_GATING()			rcc->apb1rstr |= (1 << 2)
@@ -82,7 +98,8 @@ struct RCCRegs{				//  Offset	// Description
 #define RESET_TIMER_13_CLK_GATING()			rcc->apb1rstr |= (1 << 7)
 #define RESET_TIMER_14_CLK_GATING()			rcc->apb1rstr |= (1 << 8)
 
-
-
+// For DMA
+#define RESET_DMA1_CLK_GATING()			    rcc->ahb1rstr |= (1 << 21)
+#define RESET_DMA2_CLK_GATING()			    rcc->ahb1rstr |= (1 << 22)
 
 #endif // __RCC_H__

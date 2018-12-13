@@ -52,6 +52,17 @@ struct TimerRegs{			//  Offset	// Description
 #define	TIM_CC3OF		(1<<11)
 #define	TIM_CC4OF		(1<<12)
 
+// DIER
+#define	TIM_UIE			1
+#define	TIM_CC1IE		(1<<1)		// shift to left 1 means 2
+#define	TIM_CC2IE		(1<<2)		// shift to left 2 means 4 and so on...
+#define	TIM_CC3IE		(1<<3)
+#define	TIM_CC4IE		(1<<4)
+#define	TIM_TIE			(1<<6)
+#define	TIM_CC1OE		(1<<9)
+#define	TIM_CC2OE		(1<<10)
+#define	TIM_CC3OE		(1<<11)
+#define	TIM_CC4OE		(1<<12)
 // CCMR
 // Compare Mode (bit 6:4)
 #define	OC_FROZEN				(0 << 4)
@@ -97,14 +108,15 @@ struct TimerRegs{			//  Offset	// Description
 //	TIM_CC2OF			// capture/ compare 2 overcapture flag
 //	TIM_CC3OF			// capture/ compare 3 overcapture flag
 //	TIM_CC4OF			// capture/ compare 4 overcapture flag
-#define TIM_CLEAR_FLAG(tim, whichFlag)	(tim)->sr = ~(whichFlag)		// rc_0 no clear '&' bcoz set or reset has no effect
-#define TIM_GET_FLAGS(tim, whichFlag)	(tim)->sr & (whichFlag)
+#define TIM_CLEAR_FLAG(tim, whichFlag)		(tim)->sr = ~(whichFlag)		// rc_0 no clear '&' bcoz set or reset has no effect
+#define TIM_GET_FLAGS(tim, whichFlag)		(tim)->sr & (whichFlag)
 #define TIM_IS_SET_FLAGS(tim, whichFlag)	(tim)->sr & (whichFlag)? 1:0
-#define TIM_COUNTER_ENABLE(tim)			(tim)->cr1 |= TIM_CEN;
-#define TIM_COUNTER_DISABLE(tim)		(tim)->cr1 &= ~TIM_CEN;
+#define TIM_COUNTER_ENABLE(tim)				(tim)->cr1 |= TIM_CEN;
+#define TIM_COUNTER_DISABLE(tim)			(tim)->cr1 &= ~TIM_CEN;
 
-#define TIME_UPDATE_GEN					(tim)->egr |= TIM_EGR;
+#define TIME_UPDATE_GEN						(tim)->egr |= TIM_EGR;
 
+#define TIM_INTERRUPT_ENABLE(tim, bit)		(tim)->dier |= bit;
 
 
 typedef enum
