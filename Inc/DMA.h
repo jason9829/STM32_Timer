@@ -98,20 +98,20 @@ struct dmaRegs{
 #define DMA_PBURST8  (2 << 21)     // Incremental burst of 8 beats
 #define DMA_PBURST16 (3 << 21)     // Incremental burst of 16 beats
 
-#define DMA_MBURSTS  (00 << 25)		// Single transfer
-#define DMA_MBURST4  (1 << 25)     // Incremental burst of 4 beats
-#define DMA_MBURST8  (2 << 25)     // Incremental burst of 8 beats
-#define DMA_MBURST16 (3 << 25)     // Incremental burst of 16 beats
+#define DMA_MBURSTS  (00 << 23)		// Single transfer
+#define DMA_MBURST4  (1 << 23)     // Incremental burst of 4 beats
+#define DMA_MBURST8  (2 << 23)     // Incremental burst of 8 beats
+#define DMA_MBURST16 (3 << 23)     // Incremental burst of 16 beats
 
 
-#define DMA_CH0SEL 	(000 << 24)		// Channel 0 selected
-#define DMA_CH1SEL 	(001 << 24)		// Channel 1 selected
-#define DMA_CH2SEL 	(010 << 24)		// Channel 2 selected
-#define DMA_CH3SEL 	(011 << 24)		// Channel 3 selected
-#define DMA_CH4SEL 	(100 << 24)		// Channel 4 selected
-#define DMA_CH5SEL 	(101 << 24)		// Channel 5 selected
-#define DMA_CH6SEL 	(110 << 24)		// Channel 6 selected
-#define DMA_CH7SEL 	(111 << 24)		// Channel 7 selected
+#define DMA_CH0SEL 	(000 << 25)		// Channel 0 selected
+#define DMA_CH1SEL 	(1 << 25)		// Channel 1 selected
+#define DMA_CH2SEL 	(2 << 25)		// Channel 2 selected
+#define DMA_CH3SEL 	(3 << 25)		// Channel 3 selected
+#define DMA_CH4SEL 	(4 << 25)		// Channel 4 selected
+#define DMA_CH5SEL 	(5 << 25)		// Channel 5 selected
+#define DMA_CH6SEL 	(6 << 25)		// Channel 6 selected
+#define DMA_CH7SEL 	(7 << 25)		// Channel 7 selected
 
 #define dmaClearAllFlags(dma, chn)     dmaClearStatus(dma, chn, DMA_TCIF  |  \
 																DMA_HTIF  |	 \
